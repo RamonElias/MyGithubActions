@@ -56,7 +56,6 @@ jobs:
     with:
       title: "${{ matrix.env }} ${{ matrix.level }} issue"
       body: "Fix this ${{ matrix.env }} ${{ matrix.level }} issue"
-    id: create-issue-${{ matrix.env }}-${{ matrix.level }}  # Asigna un ID único a cada trabajo
 
   report-issues:
     runs-on: ubuntu-latest
@@ -76,7 +75,6 @@ jobs:
           #
           # echo "Número de issue para foo-prod: ${{ needs.create-issue-foo-prod.outputs.INUM }}"
           # echo "Stage de foo-prod: ${{ needs.create-issue-foo-prod.outputs.BUILD_STAGE }}"
-          # etc...
 
   report-issue-number:
     runs-on: ubuntu-latest
