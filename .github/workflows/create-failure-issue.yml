@@ -62,15 +62,28 @@ jobs:
       - name: Get stage
         run: echo "The build stage is ${{ steps.set-debug-stage.outputs.BUILD_STAGE }}"
 
-      - name: pack-result
+      # - name: pack-result
+      #   run: |
+      #     echo 'json={"KEY":"${{ inputs.title }}","INUM":"${{ steps.set-inum-stage.outputs.inum }}","BUILD_STAGE":"${{ steps.set-debug-stage.outputs.BUILD_STAGE }}"}' >> $GITHUB_OUTPUT
+      - name: save-JSON
         run: |
-          echo 'json={"KEY":"${{ inputs.title }}","INUM":"${{ steps.set-inum-stage.outputs.inum }}","BUILD_STAGE":"${{ steps.set-debug-stage.outputs.BUILD_STAGE }}"}' >> $GITHUB_OUTPUT
+          echo '{
+            "KEY": "${{ inputs.title }}",
+            "INUM": "${{ steps.set-inum-stage.outputs.inum }}",
+            "BUILD_STAGE": "${{ steps.set-debug-stage.outputs.BUILD_STAGE }}"
+          }' > result.json
+
+      - name: upload-artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: result-${{ inputs.title }}
+          path: result.json
 
     outputs:
-      # INUM: ${{ steps.set-inum-stage.outputs.inum }}
-      # BUILD_STAGE: ${{ steps.set-debug-stage.outputs.BUILD_STAGE }}
-      # KEY: ${{ inputs.title }}
-      RESULT: ${{ steps.pack-result.outputs.json }}
+      INUM: ${{ steps.set-inum-stage.outputs.inum }}
+      BUILD_STAGE: ${{ steps.set-debug-stage.outputs.BUILD_STAGE }}
+      KEY: ${{ inputs.title }}
+      # RESULT: ${{ steps.pack-result.outputs.json }}
 
   # report:
   #   runs-on: ubuntu-latest

@@ -63,3 +63,21 @@ jobs:
       - name: see-outputs
         run: |
           echo '${{ toJSON(needs.create-new-issue.outputs) }}' | jq
+
+  report-issue-number:
+    runs-on: ubuntu-latest
+    needs: create-new-issue
+    steps:
+      - name: download-artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./results
+
+      - name: combine-results
+        run: |
+          jq -s '.' results/**/result.json > combined.json
+          cat combined.json | jq
+
+      - name: show-table
+        run: |
+          cat combined.json | jq -r '.[] | "\(.KEY)\t\(.INUM)\t\(.BUILD_STAGE)"'
