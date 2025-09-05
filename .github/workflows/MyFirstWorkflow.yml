@@ -84,6 +84,13 @@ jobs:
           [[ -f ${{ vars.FILE_TO_CHECK }} ]] ||
           ( echo "${{ vars.FILE_TO_CHECK }} file needs to be added to ${{ github.repository }} !" && exit 1 )
 
+      - name: Dump GitHub context
+        id: github_context_step
+        run: echo '${{ toJSON(github) }}'
+
+      - name: Dump steps context
+        run: echo '${{ toJSON(steps)
+
       - name: Print a summary
         run: |
           echo '# Hi there! :rocket:' >> $GITHUB_STEP_SUMMARY
@@ -91,3 +98,4 @@ jobs:
           echo '### Hi there! :rocket:' >> $GITHUB_STEP_SUMMARY
           echo '### Love this feature! :medal_sports:' >> $GITHUB_STEP_SUMMARY
           echo '<h3>Great feature!</h3>' >> $GITHUB_STEP_SUMMARY
+
