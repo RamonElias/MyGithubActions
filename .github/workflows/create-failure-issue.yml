@@ -66,14 +66,14 @@ jobs:
       INUM: ${{ steps.set-inum-stage.outputs.inum }}
       BUILD_STAGE: ${{ steps.set-debug-stage.outputs.BUILD_STAGE }}
 
-  report:
-    runs-on: ubuntu-latest
-    needs: create_issue_on_failure
-    steps:
-      - name: Get stage
-        env:
-          INUM: ${{ needs.create_issue_on_failure.outputs.INUM }}
-          BUILD_STAGE: ${{ needs.create_issue_on_failure.outputs.BUILD_STAGE }}
-        run: |
-          echo "The issue number is $INUM"
-          echo "The build stage is $BUILD_STAGE"
+  # report:
+  #   runs-on: ubuntu-latest
+  #   needs: create_issue_on_failure
+  #   steps:
+  #     - name: Get stage
+  #       env:
+  #         INUM: ${{ needs.create_issue_on_failure.outputs.INUM }}
+  #         BUILD_STAGE: ${{ needs.create_issue_on_failure.outputs.BUILD_STAGE }}
+  #       run: |
+  #         echo "The issue number is $INUM"
+  #         echo "The build stage is $BUILD_STAGE"
