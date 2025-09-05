@@ -1,12 +1,44 @@
+# name: running-a-workflow-with-a-matrix
+# run-name: workflow run by @${{ github.actor }}
+#
+# # on:
+# #   push:
+# on:
+#   push:
+#     branches:
+#       # - main
+#       - foobarbaz
+#
+#   workflow_dispatch:
+#
+# jobs:
+#   create-new-issue:
+#     uses: ./.github/workflows/create-failure-issue.yml
+#     secrets: inherit
+#     permissions:
+#       issues: write
+#     strategy:
+#       matrix:
+#         env: [foo, bar]
+#         level: [dev, stage, prod]
+#     with:
+#       title: "${{ matrix.env}} ${{ matrix.level}} issue"
+#       body: "Fix this ${{ matrix.env}} ${{ matrix.level}} issue"
+#
+#   report-issue-number:
+#     runs-on: ubuntu-latest
+#     needs: create-new-issue
+#     steps:
+#       - run: |
+#           echo ${{ needs.create-new-issue.outputs.INUM }}
+#           echo ${{ needs.create-new-issue.outputs.BUILD_STAGE }}
+
 name: running-a-workflow-with-a-matrix
 run-name: workflow run by @${{ github.actor }}
 
-# on:
-#   push:
 on:
   push:
     branches:
-      # - main
       - foobarbaz
 
   workflow_dispatch:
@@ -22,13 +54,39 @@ jobs:
         env: [foo, bar]
         level: [dev, stage, prod]
     with:
-      title: "${{ matrix.env}} ${{ matrix.level}} issue"
-      body: "Fix this ${{ matrix.env}} ${{ matrix.level}} issue"
+      title: "${{ matrix.env }} ${{ matrix.level }} issue"
+      body: "Fix this ${{ matrix.env }} ${{ matrix.level }} issue"
+    id: create-issue-${{ matrix.env }}-${{ matrix.level }}  # Asigna un ID único a cada trabajo
+
+  report-issues:
+    runs-on: ubuntu-latest
+    needs: create-new-issue
+    steps:
+      - name: Report all issue numbers
+        run: |
+          echo "Todos los números de issues creados:"
+          echo "${{ toJSON(needs.create-new-issue.outputs) }}"
+
+      # - name: Get individual issues
+      #   run: |
+          # Debes acceder a las salidas por el ID del trabajo específico de la matriz
+          # Esta es solo una demostración, la sintaxis puede variar
+          # echo "Número de issue para foo-dev: ${{ needs.create-issue-foo-dev.outputs.INUM }}"
+          # echo "Stage de foo-dev: ${{ needs.create-issue-foo-dev.outputs.BUILD_STAGE }}"
+          #
+          # echo "Número de issue para foo-prod: ${{ needs.create-issue-foo-prod.outputs.INUM }}"
+          # echo "Stage de foo-prod: ${{ needs.create-issue-foo-prod.outputs.BUILD_STAGE }}"
+          # etc...
 
   report-issue-number:
     runs-on: ubuntu-latest
     needs: create-new-issue
+    strategy:
+      matrix:
+        env: [foo, bar]
+        level: [dev, stage, prod]
     steps:
-      - run: |
-          echo ${{ needs.create-new-issue.outputs.INUM }}
-          echo ${{ needs.create-new-issue.outputs.BUILD_STAGE }}
+      - name: Report dynamic issue details
+        run: |
+          echo "El número de issue para ${{ matrix.env }} y ${{ matrix.level }} es: ${{ needs.create-new-issue.outputs.INUM }}"
+          echo "El build stage para ${{ matrix.env }} y ${{ matrix.level }} es: ${{ needs.create-new-issue.outputs.BUILD_STAGE }}"
