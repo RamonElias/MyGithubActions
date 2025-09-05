@@ -62,10 +62,15 @@ jobs:
       - name: Get stage
         run: echo "The build stage is ${{ steps.set-debug-stage.outputs.BUILD_STAGE }}"
 
+      - name: pack-result
+        run: |
+          echo 'json={"KEY":"${{ inputs.title }}","INUM":"${{ steps.set-inum-stage.outputs.inum }}","BUILD_STAGE":"${{ steps.set-debug-stage.outputs.BUILD_STAGE }}"}' >> $GITHUB_OUTPUT
+
     outputs:
-      INUM: ${{ steps.set-inum-stage.outputs.inum }}
-      BUILD_STAGE: ${{ steps.set-debug-stage.outputs.BUILD_STAGE }}
-      KEY: ${{ inputs.title }}
+      # INUM: ${{ steps.set-inum-stage.outputs.inum }}
+      # BUILD_STAGE: ${{ steps.set-debug-stage.outputs.BUILD_STAGE }}
+      # KEY: ${{ inputs.title }}
+      RESULT: ${{ steps.pack-result.outputs.json }}
 
   # report:
   #   runs-on: ubuntu-latest

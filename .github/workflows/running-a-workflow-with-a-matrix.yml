@@ -60,16 +60,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: create-new-issue
     steps:
-      - name: Mostrar JSON crudo de outputs
+      - name: see-outputs
         run: |
-          echo '${{ toJSON(needs.create-new-issue.outputs) }}' > outputs.json
-          cat outputs.json | jq
-
-      - name: Parsear e imprimir cada combinación
-        run: |
-          cat outputs.json | jq -r '
-            to_entries[] 
-            | select(.key|test("INUM|BUILD_STAGE|KEY")) 
-            | .key + " = " + .value
-          '
-
+          echo '${{ toJSON(needs.create-new-issue.outputs) }}' | jq
