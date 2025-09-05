@@ -1,0 +1,34 @@
+name: running-a-workflow-with-a-matrix
+run-name: workflow run by @${{ github.actor }}
+
+# on:
+#   push:
+on:
+  push:
+    branches:
+      # - main
+      - foobarbaz
+
+  workflow_dispatch:
+
+jobs:
+  create-new-issue:
+    uses: ./.github/workflows/create-failure-issue.yml
+    secrets: inherit
+    permissions:
+      issues: write
+    strategy:
+      matrix:
+        env: [foo, bar]
+        level: [dev, stage, prod]
+    with:
+      title: "${{ matrix.env}} ${{ matrix.level}} issue"
+      body: "Fix this ${{ matrix.env}} ${{ matrix.level}} issue"
+
+  # report-issue-number:
+  #   runs-on: ubuntu-latest
+  #   needs: create-new-issue
+  #   steps:
+  #     - run: |
+  #         echo ${{ needs.create-new-issue.outputs.INUM }}
+  #         echo ${{ needs.create-new-issue.outputs.BUILD_STAGE }}

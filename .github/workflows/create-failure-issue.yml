@@ -1,0 +1,79 @@
+# This is a reusable workflow for creating an issue
+name: create-failure-issue
+
+on:
+  # Allows you to run this workflow from another workflow
+  workflow_call:
+    inputs:
+      title:
+        required: true
+        type: string
+      body:
+        required: true
+        type: string
+
+  # Allows you to call this manually from the Actions tab
+  workflow_dispatch:
+    inputs:
+      title:
+        description: 'Issue title'
+        required: true
+      body:
+        description: 'Issue body'
+        required: true
+
+jobs:
+  create_issue_on_failure:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Show repo info
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo Repository is ${{ github.repository }}
+          echo "::debug::Debugging is turned on for steps and runner"
+          echo Size of local repository area is `du -hs ${{ github.workspace }}`
+          echo Context dump follows:
+          echo "$GITHUB_CONTEXT"
+
+      - name: Create issue using REST API
+        id: set-inum-stage
+        run: |
+          response=$(curl --request POST \
+          --url https://api.github.com/repos/${{ github.repository }}/issues \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'content-type: application/json' \
+          --data '{
+            "title": "Failure: ${{ inputs.title }}",
+            "body": "Details: ${{ inputs.body }}"
+            }' \
+          --fail | jq '.number')
+          echo "inum=$response" >> $GITHUB_OUTPUT
+
+      - name: Set debug
+        id: set-debug-stage
+        run: echo "BUILD_STAGE=debug" >> $GITHUB_OUTPUT
+
+      - name: Get stage
+        run: echo "The build stage is ${{ steps.set-debug-stage.outputs.BUILD_STAGE }}"
+
+    outputs:
+      INUM: ${{ steps.set-inum-stage.outputs.inum }}
+      BUILD_STAGE: ${{ steps.set-debug-stage.outputs.BUILD_STAGE }}
+
+  report:
+    runs-on: ubuntu-latest
+    needs: create_issue_on_failure
+    steps:
+      - name: Get stage
+        env:
+          INUM: ${{ needs.create_issue_on_failure.outputs.INUM }}
+          BUILD_STAGE: ${{ needs.create_issue_on_failure.outputs.BUILD_STAGE }}
+        run: |
+          echo "The issue number is $INUM"
+          echo "The build stage is $BUILD_STAGE"

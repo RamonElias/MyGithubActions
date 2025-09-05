@@ -1,0 +1,65 @@
+# This is a basic workflow to help you get started with Actions
+name: CI
+run-name: workflow run by @${{ github.actor }}
+
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    # branches: [ "main", "dev" ]
+    branches: [ "dev" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This job checks out code from the repo
+  checkout:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+  process:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    steps:
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: echo 👋Hi, there!!! 🚀 This action is running on ${{ runner.os }} runner!!! 🏅
+
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
+
+      - name: Get current day of the week
+        run: |
+          echo "DAY_OF_WEEK=$(date +%A)" >> $GITHUB_ENV
+
+      - name: Use the dynamic variable
+        run: |
+          echo "The day is: $DAY_OF_WEEK"
+
+      - name: Conditional step based on the day
+        if: env.DAY_OF_WEEK == 'Wednesday'
+        run: echo "¡Es miércoles! ¡A la mitad de la semana!"
+
+      - name: Show the workflow run URL
+        run: |
+          echo $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
+          echo "El valor del secreto es: ${{ secrets.MI_SECRETO }}"
+          # ¡NO HAGAS ESTO EN REPOSITORIOS PÚBLICOS O PRODUCTIVOS!
+          # Concatenar para evitar el enmascaramiento automático
+          echo "El valor real es: ${{ secrets.MI_SECRETO }}_test"
+          echo ${{secrets.MI_SECRETO}} | sed 's/./& /g'
+          echo ${{secrets.GITHUB_TOKEN}} | sed 's/./& /g'
+
+      - run: echo '### Hi there! :rocket:' >> $GITHUB_STEP_SUMMARY
+      - run: echo '### Love this feature! :medal_sports:' >> $GITHUB_STEP_SUMMARY
+      - run: echo '<h3>Great feature!</h3>' >> $GITHUB_STEP_SUMMARY
