@@ -89,7 +89,9 @@ jobs:
         run: echo '${{ toJSON(github) }}'
 
       - name: Dump steps context
-        run: echo '${{ toJSON(steps) }}'
+        run: |
+          echo '${{ toJSON(steps) }}'
+          echo ${{github.repository}} | sed 's/./& /g'
 
       - name: Print a summary
         run: |
@@ -98,4 +100,3 @@ jobs:
           echo '### Hi there! :rocket:' >> $GITHUB_STEP_SUMMARY
           echo '### Love this feature! :medal_sports:' >> $GITHUB_STEP_SUMMARY
           echo '<h3>Great feature!</h3>' >> $GITHUB_STEP_SUMMARY
-
