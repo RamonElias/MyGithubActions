@@ -42,15 +42,6 @@ on:
 
   workflow_dispatch:
 
-name: running-a-workflow-with-a-matrix
-
-on:
-  push:
-    branches:
-      - foobarbaz
-
-  workflow_dispatch:
-
 jobs:
   create-new-issue:
     uses: ./.github/workflows/create-failure-issue.yml
@@ -81,3 +72,4 @@ jobs:
             | select(.key|test("INUM|BUILD_STAGE|KEY")) 
             | .key + " = " + .value
           '
+
