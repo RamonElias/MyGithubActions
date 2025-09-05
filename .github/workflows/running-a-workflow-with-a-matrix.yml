@@ -72,4 +72,5 @@ jobs:
 
       - name: show-table
         run: |
-          cat combined.json | jq -r '.[] | "\(.KEY)\t\(.INUM)\t\(.BUILD_STAGE)"'
+          # cat combined.json | jq -r '.[] | "\(.KEY)\t\(.INUM)\t\(.BUILD_STAGE)"'
+          cat combined.json | jq -r '.[] | "\(.KEY);;;\(.INUM);;;\(.BUILD_STAGE)"'

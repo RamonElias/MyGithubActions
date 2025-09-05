@@ -6,6 +6,12 @@ gh run list --workflow=create-failure-issue.yml
 gh run view 1234567 --log
 gh run view 16658688268 --log
 
+gh run view $LAST_RUN_ID --log
+gh run view $LAST_RUN_ID --verbose
+gh run view --job 49702928502 --log
+gh run view --job 49702928502 --verbose
+gh run download $LAST_RUN_ID --name "result-bar-dev"
+
 LAST_RUN_ID=$(gh run list --workflow=MyFirstWorkflow.yml --limit 1 --json databaseId --jq '.[0].databaseId')
 LAST_RUN_ID=$(gh run list --workflow=create-failure-issue.yml --limit 1 --json databaseId --jq '.[0].databaseId')
 echo $LAST_RUN_ID
