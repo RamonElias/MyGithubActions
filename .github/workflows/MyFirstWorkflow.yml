@@ -89,7 +89,7 @@ jobs:
         run: echo '${{ toJSON(github) }}'
 
       - name: Dump steps context
-        run: echo '${{ toJSON(steps)
+        run: echo '${{ toJSON(steps) }}'
 
       - name: Print a summary
         run: |
