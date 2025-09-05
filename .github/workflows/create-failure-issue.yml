@@ -65,6 +65,7 @@ jobs:
     outputs:
       INUM: ${{ steps.set-inum-stage.outputs.inum }}
       BUILD_STAGE: ${{ steps.set-debug-stage.outputs.BUILD_STAGE }}
+      KEY: ${{ inputs.title }}
 
   # report:
   #   runs-on: ubuntu-latest

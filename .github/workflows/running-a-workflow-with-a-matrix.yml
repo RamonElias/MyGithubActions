@@ -6,7 +6,6 @@
 # on:
 #   push:
 #     branches:
-#       # - main
 #       - foobarbaz
 #
 #   workflow_dispatch:
@@ -43,6 +42,15 @@ on:
 
   workflow_dispatch:
 
+name: running-a-workflow-with-a-matrix
+
+on:
+  push:
+    branches:
+      - foobarbaz
+
+  workflow_dispatch:
+
 jobs:
   create-new-issue:
     uses: ./.github/workflows/create-failure-issue.yml
@@ -54,37 +62,22 @@ jobs:
         env: [foo, bar]
         level: [dev, stage, prod]
     with:
-      title: "${{ matrix.env }} ${{ matrix.level }} issue"
+      title: "${{ matrix.env }}-${{ matrix.level }}"
       body: "Fix this ${{ matrix.env }} ${{ matrix.level }} issue"
-
-  report-issues:
-    runs-on: ubuntu-latest
-    needs: create-new-issue
-    steps:
-      - name: Report all issue numbers
-        run: |
-          echo "Todos los números de issues creados:"
-          echo "${{ toJSON(needs.create-new-issue.outputs) }}"
-
-      # - name: Get individual issues
-      #   run: |
-          # Debes acceder a las salidas por el ID del trabajo específico de la matriz
-          # Esta es solo una demostración, la sintaxis puede variar
-          # echo "Número de issue para foo-dev: ${{ needs.create-issue-foo-dev.outputs.INUM }}"
-          # echo "Stage de foo-dev: ${{ needs.create-issue-foo-dev.outputs.BUILD_STAGE }}"
-          #
-          # echo "Número de issue para foo-prod: ${{ needs.create-issue-foo-prod.outputs.INUM }}"
-          # echo "Stage de foo-prod: ${{ needs.create-issue-foo-prod.outputs.BUILD_STAGE }}"
 
   report-issue-number:
     runs-on: ubuntu-latest
     needs: create-new-issue
-    strategy:
-      matrix:
-        env: [foo, bar]
-        level: [dev, stage, prod]
     steps:
-      - name: Report dynamic issue details
+      - name: Mostrar JSON crudo de outputs
         run: |
-          echo "El número de issue para ${{ matrix.env }} y ${{ matrix.level }} es: ${{ needs.create-new-issue.outputs.INUM }}"
-          echo "El build stage para ${{ matrix.env }} y ${{ matrix.level }} es: ${{ needs.create-new-issue.outputs.BUILD_STAGE }}"
+          echo '${{ toJSON(needs.create-new-issue.outputs) }}' > outputs.json
+          cat outputs.json | jq
+
+      - name: Parsear e imprimir cada combinación
+        run: |
+          cat outputs.json | jq -r '
+            to_entries[] 
+            | select(.key|test("INUM|BUILD_STAGE|KEY")) 
+            | .key + " = " + .value
+          '
