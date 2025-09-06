@@ -83,3 +83,38 @@ gh api \
   -H "X-GitHub-Api-Version: 2022-11-28" \
   /repos/RamonElias/MyGithubActions/actions/variables/FILE_TO_CHECK \
    -f 'name=FILE_TO_CHECK' -f 'value=Dockerfile'
+
+# -------------------------------------------------------
+# script
+# -------------------------------------------------------
+
+OWNER="RamonElias"
+REPO="MyGithubActions"
+
+PUBLIC_KEY_INFO=$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /repos/${OWNER}/${REPO}/actions/secrets/public-key)
+KEY_ID=$(echo "$PUBLIC_KEY_INFO" | jq -r .key_id)
+PUBLIC_KEY=$(echo "$PUBLIC_KEY_INFO" | jq -r .key)
+
+SECRET_VALUE="echoPUBLIC_KEY"
+
+ENCRYPTED_SECRET=$( \
+  PUBLIC_KEY="$PUBLIC_KEY" \
+  SECRET_VALUE="$SECRET_VALUE" \
+  python encrypt.py \
+)
+
+gh api \
+  --method PUT \
+  -H "Accept: application/vnd.github+json" \
+  /repos/${OWNER}/${REPO}/actions/secrets/MY_SECRET \
+  -f "encrypted_value=$ENCRYPTED_SECRET" \
+  -f "key_id=$KEY_ID"
+
+echo "El valor de la variable KEY_ID es: $KEY_ID"
+echo "El valor de la variable PUBLIC_KEY es: $PUBLIC_KEY"
+echo "El valor de la variable SECRET_VALUE es: $SECRET_VALUE"
+echo "El valor encriptado es: $ENCRYPTED_SECRET"
+
+# -------------------------------------------------------
+# script
+# -------------------------------------------------------

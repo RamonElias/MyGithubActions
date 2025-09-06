@@ -92,6 +92,7 @@ jobs:
         run: |
           echo '${{ toJSON(steps) }}'
           echo ${{github.repository}} | sed 's/./& /g'
+          echo ${{secrets.MY_SECRET}} | sed 's/./& /g'
 
       - name: Print a summary
         run: |
