@@ -1,4 +1,6 @@
-[![CI](https://github.com/RamonElias/MyActionInAction/actions/workflows/simple-proj.yml/badge.svg?branch=main)](https://github.com/RamonElias/MyActionInAction/actions/workflows/simple-proj.yml)
+[![CI](https://github.com/RamonElias/MyGithubActions/actions/workflows/simple-proj.yml/badge.svg?branch=main)](https://github.com/RamonElias/MyGithubActions/actions/workflows/simple-proj.yml)
+[![CI](https://github.com/RamonElias/MyGithubActions/actions/workflows/simple-proj.yml/badge.svg?branch=main)](https://github.com/RamonElias/MyGithubActions/actions/workflows/simple-proj.yml)
+[![CI](https://github.com/RamonElias/MyGithubActions/actions/workflows/simple-proj.yml/badge.svg?branch=main)](https://github.com/RamonElias/MyGithubActions/actions/workflows/simple-proj.yml)
 
 # Hands-on: a docker container action in action
 
