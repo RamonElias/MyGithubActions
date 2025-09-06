@@ -1,7 +1,10 @@
-### [![CI](https://github.com/RamonElias/MyGithubActions/actions/workflows/MyFirstWorkflow.yml/badge.svg?branch=main)](https://github.com/RamonElias/MyGithubActions/actions/workflows/MyFirstWorkflow.yml)
-### [![CI](https://github.com/RamonElias/MyGithubActions/actions/workflows/running-a-workflow-with-a-matrix.yml/badge.svg?branch=main)](https://github.com/RamonElias/MyGithubActions/actions/workflows/running-a-workflow-with-a-matrix.yml.yml)
-# [![CI](https://github.com/RamonElias/MyGithubActions/actions/workflows/simple-proj.yml/badge.svg?branch=main)](https://github.com/RamonElias/MyGithubActions/actions/workflows/simple-proj.yml)
+[![CI](https://github.com/RamonElias/MyGithubActions/actions/workflows/MyFirstWorkflow.yml/badge.svg?branch=main)](https://github.com/RamonElias/MyGithubActions/actions/workflows/MyFirstWorkflow.yml)
+[![CI](https://github.com/RamonElias/MyGithubActions/actions/workflows/running-a-workflow-with-a-matrix.yml/badge.svg?branch=main)](https://github.com/RamonElias/MyGithubActions/actions/workflows/running-a-workflow-with-a-matrix.yml.yml)
+[![CI](https://github.com/RamonElias/MyGithubActions/actions/workflows/create-failure-issue.yml/badge.svg?branch=main)](https://github.com/RamonElias/MyGithubActions/actions/workflows/create-failure-issue.yml)
+[![CI](https://github.com/RamonElias/MyGithubActions/actions/workflows/simple-proj.yml/badge.svg?branch=main)](https://github.com/RamonElias/MyGithubActions/actions/workflows/simple-proj.yml)
+[![CI](https://github.com/RamonElias/MyGithubActions/actions/workflows/test-action.yml/badge.svg?branch=main)](https://github.com/RamonElias/MyGithubActions/actions/workflows/test-action.yml)
 
+#
 # Hands-on: a docker container action in action
 
 In this hands-on lab you will create a docker container action that uses input and output parameters. Furthermore, you will create a CI build that tests the action every time y change is made to one of the files.
