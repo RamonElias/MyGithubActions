@@ -1,5 +1,5 @@
-[![CI](https://github.com/RamonElias/MyGithubActions/actions/workflows/simple-proj.yml/badge.svg?branch=main)](https://github.com/RamonElias/MyGithubActions/actions/workflows/simple-proj.yml)
-[![CI](https://github.com/RamonElias/MyGithubActions/actions/workflows/simple-proj.yml/badge.svg?branch=main)](https://github.com/RamonElias/MyGithubActions/actions/workflows/simple-proj.yml)
+[![CI](https://github.com/RamonElias/MyGithubActions/actions/workflows/MyFirstWorkflow.yml/badge.svg?branch=main)](https://github.com/RamonElias/MyGithubActions/actions/workflows/MyFirstWorkflow.yml)
+[![CI](https://github.com/RamonElias/MyGithubActions/actions/workflows/running-a-workflow-with-a-matrix.yml/badge.svg?branch=main)](https://github.com/RamonElias/MyGithubActions/actions/workflows/running-a-workflow-with-a-matrix.yml.yml)
 [![CI](https://github.com/RamonElias/MyGithubActions/actions/workflows/simple-proj.yml/badge.svg?branch=main)](https://github.com/RamonElias/MyGithubActions/actions/workflows/simple-proj.yml)
 
 # Hands-on: a docker container action in action
